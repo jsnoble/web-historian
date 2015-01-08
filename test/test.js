@@ -64,29 +64,29 @@ describe("Node Server Request Listener Function", function() {
      });
    });
 
-//   it("Should append submitted sites to 'sites.txt'", function(done) {
-//     var url = "www.example.com";
-//     var req = new stubs.Request("/", "POST", {url: url});
+   it("Should append submitted sites to 'sites.txt'", function(done) {
+     var url = "www.example.com";
+     var req = new stubs.Request("/", "POST", {url: url});
 
-//     // Reset the test file and process request
-//     fs.writeFileSync(archive.paths.list, "");
-//     handler.handleRequest(req, res);
+     // Reset the test file and process request
+     fs.writeFileSync(archive.paths.list, "");
+     handler.handleRequest(req, res);
 
-//     waitForThen(
-//       function() { return res._ended; },
-//       function(){
-//         var fileContents = fs.readFileSync(archive.paths.list, 'utf8');
-//         expect(res._responseCode).to.equal(302);
-//         expect(fileContents).to.equal(url + "\n");
-//         done();
-//     });
-//   });
+     waitForThen(
+       function() { return res._ended; },
+       function(){
+         var fileContents = fs.readFileSync(archive.paths.list, 'utf8');
+         expect(res._responseCode).to.equal(302);
+         expect(fileContents).to.equal(url + "\n");
+         done();
+     });
+   });
 
 //   it("Should 404 when asked for a nonexistent file", function(done) {
 //     var req = new stubs.Request("/arglebargle", "GET");
-
+//
 //     handler.handleRequest(req, res);
-
+//
 //     waitForThen(
 //       function() { return res._ended; },
 //       function(){
@@ -94,8 +94,8 @@ describe("Node Server Request Listener Function", function() {
 //         done();
 //     });
 //   });
-
-// });
+//
+//});
 
 // describe("html fetcher helpers", function(){
 
