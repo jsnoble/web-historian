@@ -13,20 +13,28 @@ var sendResponse = function(res, data, responseCode) {
 };
 
 var actions = {
-  'GET': function(req, res) {
-    httpHelp.serveAssets(res, archive.paths.siteAssets+'/index.html', sendResponse);
+  'GET': function(path, res) {
+    if (path === '/') {
+      path = archive.paths.siteAssets+ '/index.html';
+    } else {
+      console.log(path);
+      path = archive.paths.archivedSites + '/' + path;
+    }
+    httpHelp.serveAssets(res, path, sendResponse);
   }
 };
+
+
 
 exports.handleRequest = function(req, res) {
   var homePath = url.parse(req.url);
 
-  if(homePath.pathname === '/') {
+  // if(homePath.pathname === '/') {
     var action = actions[req.method];
     if (action) {
-      action (req , res);
+      action (homePath.pathname , res);
     } else {
       helpers.sendResponse (res , 'Not Found' , 404);
     }
-  }
+  // }
 };

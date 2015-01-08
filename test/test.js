@@ -37,32 +37,32 @@ describe("Node Server Request Listener Function", function() {
     });
   });
 
-//   it("Should answer GET requests for archived websites", function(done) {
-//     var fixtureName = "www.google.com";
-//     var fixturePath = archive.paths.archivedSites + "/" + fixtureName;
+   it("Should answer GET requests for archived websites", function(done) {
+     var fixtureName = "www.google.com";
+     var fixturePath = archive.paths.archivedSites + "/" + fixtureName;
 
-//     // Create or clear the file.
-//     var fd = fs.openSync(fixturePath, "w");
-//     fs.closeSync(fd);
+     // Create or clear the file.
+     var fd = fs.openSync(fixturePath, "w");
+     fs.closeSync(fd);
 
-//     // Write data to the file.
-//     fs.writeFileSync(fixturePath, "google");
+     // Write data to the file.
+     fs.writeFileSync(fixturePath, "google");
 
-//     // Request it back.
-//     var req = new stubs.Request("/" + fixtureName, "GET");
-//     handler.handleRequest(req, res);
+     // Request it back.
+     var req = new stubs.Request("/" + fixtureName, "GET");
+     handler.handleRequest(req, res);
 
-//     waitForThen(
-//       function() { return res._ended; },
-//       function(){
-//         expect(res._responseCode).to.equal(200);
-//         expect(res._data.toString().match(/google/)).to.be.ok; // the resulting html should have the text "google"
+     waitForThen(
+       function() { return res._ended; },
+       function(){
+         expect(res._responseCode).to.equal(200);
+         expect(res._data.toString().match(/google/)).to.be.ok; // the resulting html should have the text "google"
 
-//         // Delete the file from the archives.
-//         fs.unlinkSync(fixturePath);
-//         done();
-//     });
-//   });
+         // Delete the file from the archives.
+         fs.unlinkSync(fixturePath);
+         done();
+     });
+   });
 
 //   it("Should append submitted sites to 'sites.txt'", function(done) {
 //     var url = "www.example.com";
