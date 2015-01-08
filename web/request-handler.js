@@ -3,6 +3,7 @@ var archive = require('../helpers/archive-helpers');
 var httpHelp = require('./http-helpers');
 var url = require('url');
 var fs = require('fs');
+var qs = require('querystring');
 
 // require more modules/folders here!
 
@@ -24,9 +25,9 @@ var actions = {
       data += chunk;
     });
     req.on('end', function(){
-      var final = data.slice(4);
-      fs.appendFile(archive.paths.list, final+"\n");
-      sendResponse(res, archive.paths.list, 302);
+      var final = qs.parse(data).url;
+      archive.addUrlToList(final);
+      sendResponse(res, archive.paths.siteAssets+'/loading.html', 302);
     });
 
   }
