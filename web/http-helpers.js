@@ -10,18 +10,31 @@ exports.headers = headers = {
   'Content-Type': "text/html"
 };
 
-exports.serveAssets = function(res, asset, callback) {
-
-  fs.readFile(asset, function(error, content) {
+exports.read = function(res, asset, callback) {
+  // read file
+  fs.readFile (asset , function (error , content) {
     if (error) {
-      res.writeHead(500);
-      res.end();
+      res.writeHead (500);
+      res.end ();
     }
     else {
-      callback(res, content, 200);
+      callback (res , content , 200);
     }
   });
+};
 
+exports.serveAssets = function(res, asset, callback) {
+  var path = asset;
+  console.log("path: "+path);
+  if (path === '/') {
+    path = archive.paths.siteAssets+ '/index.html';
+    exports.read(res, path, callback);
+  } else if (archive.isUrlInList(path)) {
+    path = archive.paths.archivedSites + '/' + path;
+    exports.read(res, path, callback);
+  } else {
+    callback(res, null, 404);
+  }
 };
 
 

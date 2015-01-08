@@ -24,13 +24,28 @@ exports.initialize = function(pathsObj){
 
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
-
+// {encoding:'utf-8'}
 exports.readListOfUrls = function(){
-
+  return fs.readFileSync(exports.paths.list, 'utf-8');
 };
 
-exports.isUrlInList = function(){
+exports.isUrlInList = function(someUrl){
+  var pathUrl = path.basename(someUrl);
+  var data = exports.readListOfUrls();
+   console.log("data is : "+data);
+  if(data === undefined){
+    return false;
+  }
+  var results = data.split('\n');
+  //console.log("results: "+results);
 
+  for(var i = 0; i < results.length; i++){
+   // console.log('this is path '+pathUrl);
+    if(pathUrl === results[i][0]){
+      return true;
+    }
+  }
+  return false;
 };
 
 exports.addUrlToList = function(){

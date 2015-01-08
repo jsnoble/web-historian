@@ -82,46 +82,46 @@ describe("Node Server Request Listener Function", function() {
      });
    });
 
-//   it("Should 404 when asked for a nonexistent file", function(done) {
-//     var req = new stubs.Request("/arglebargle", "GET");
-//
-//     handler.handleRequest(req, res);
-//
-//     waitForThen(
-//       function() { return res._ended; },
-//       function(){
-//         expect(res._responseCode).to.equal(404);
-//         done();
-//     });
-//   });
-//
-//});
+   it("Should 404 when asked for a nonexistent file", function(done) {
+     var req = new stubs.Request("/arglebargle", "GET");
 
-// describe("html fetcher helpers", function(){
+     handler.handleRequest(req, res);
 
-//   it("should have a 'readListOfUrls' function", function(){
-//     expect(typeof archive.readListOfUrls).to.equal('function');
-//   });
+     waitForThen(
+       function() { return res._ended; },
+       function(){
+         expect(res._responseCode).to.equal(404);
+         done();
+     });
+   });
 
-//   it("should read urls from sites.txt", function(done){
-//     var urlArray = ["example1.com", "example2.com"];
-//     var resultArray;
+});
 
-//     fs.writeFileSync(archive.paths.list, urlArray.join("\n"));
-//     archive.readListOfUrls(function(urls){
-//       resultArray = urls;
-//     });
+describe("html fetcher helpers", function(){
 
-//     waitForThen(
-//       function() { return resultArray; },
-//       function(){
-//         expect(resultArray).to.deep.equal(urlArray);
-//         done();
-//     });
-//   });
+   it("should have a 'readListOfUrls' function", function(){
+     expect(typeof archive.readListOfUrls).to.equal('function');
+   });
 
-//   it("should have a 'downloadUrls' function", function(){
-//     expect(typeof archive.downloadUrls).to.equal('function');
-//   });
+   it("should read urls from sites.txt", function(done){
+     var urlArray = ["example1.com", "example2.com"];
+     var resultArray;
+
+     fs.writeFileSync(archive.paths.list, urlArray.join("\n"));
+     archive.readListOfUrls(function(urls){
+       resultArray = urls;
+     });
+
+     waitForThen(
+       function() { return resultArray; },
+       function(){
+         expect(resultArray).to.deep.equal(urlArray);
+         done();
+     });
+   });
+
+   it("should have a 'downloadUrls' function", function(){
+     expect(typeof archive.downloadUrls).to.equal('function');
+   });
 
 });

@@ -10,19 +10,12 @@ var sendResponse = function(res, data, responseCode) {
   responseCode = responseCode || 200;
   res.writeHead(responseCode, httpHelp.headers);
   res.end(data);
-  // res.end(archive.paths.list);
 };
 
 var actions = {
   'GET': function(req, res) {
     var homePath = url.parse(req.url);
     var path = homePath.pathname;
-    if (path === '/') {
-      path = archive.paths.siteAssets+ '/index.html';
-    } else {
-      console.log(path);
-      path = archive.paths.archivedSites + '/' + path;
-    }
     httpHelp.serveAssets(res, path, sendResponse);
   },
   'POST': function(req, res){
@@ -33,10 +26,8 @@ var actions = {
     req.on('end', function(){
       var final = data.slice(4);
       fs.appendFile(archive.paths.list, final+"\n");
-    sendResponse(res, archive.paths.list, 302);
+      sendResponse(res, archive.paths.list, 302);
     });
-      //takd data and write to text
-    // res with 302, and redirct them to new url
 
   }
 };
