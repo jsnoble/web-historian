@@ -61,8 +61,16 @@ exports.addUrlToList = function(url){
   });
 };
 
-exports.isURLArchived = function(){
+exports.isURLArchived = function(pathUrl){
+  return fs.readFile(exports.paths.archivedSites+"/" +pathUrl, 'utf-8', function(err, data){
+    if(err){
+      return false;
+    } else{
+      return true;
+    }
+  });
 };
 
 exports.downloadUrls = function(){
+
 };

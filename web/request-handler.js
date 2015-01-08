@@ -26,8 +26,12 @@ var actions = {
     });
     req.on('end', function(){
       var final = qs.parse(data).url;
-      archive.addUrlToList(final);
-      sendResponse(res, archive.paths.siteAssets+'/loading.html', 302);
+      if(archive.isURLArchived(final)){
+        sendResponse(res, archive.paths.archivedSites+'/'+final, 200);
+      } else {
+        archive.addUrlToList (final);
+        sendResponse (res , archive.paths.siteAssets + '/loading.html' , 302);
+      }
     });
 
   }
