@@ -1,6 +1,7 @@
 var path = require('path');
 var fs = require('fs');
 var archive = require('../helpers/archive-helpers');
+var q = require('q');
 
 exports.headers = headers = {
   "access-control-allow-origin": "*",
@@ -10,31 +11,52 @@ exports.headers = headers = {
   'Content-Type': "text/html"
 };
 
-exports.read = function(res, asset, callback) {
-  // read file
-  fs.readFile (asset , function (error , content) {
-    if (error) {
-      res.writeHead (500);
-      res.end ();
+
+exports.serveAssets = function(res, asset, callback) {
+
+  var encoding = {encoding: 'utf8'};
+
+  fs.readFile( archive.paths.siteAssets + asset, encoding, function(err, data){
+    if(err){
+      // file doesn't exist in public!
+      fs.readFile( archive.paths.archivedSites + asset, encoding, function(err, data){
+        if(err){
+          // file doesn't exist in archive!
+          callback ? callback() : exports.send404(res);
+        } else {
+          exports.sendResponse(res, data);
+        }
+      });
+    } else {
+      exports.sendResponse(res, data);
     }
-    else {
-      callback (res , content , 200);
-    }
+  });
+
+};
+
+
+exports.sendRedirect = function(response, location, status){
+  status = status || 302;
+  response.writeHead(status, {Location: location});
+  response.end();
+};
+
+exports.sendResponse = function(response, obj, status){
+  status = status || 200;
+  response.writeHead(status, headers);
+  response.end(obj);
+};
+
+exports.collectData = function(request, callback){
+  var data = "";
+  request.on("data", function(chunk){
+    data += chunk;
+  });
+  request.on("end", function(){
+    callback(data);
   });
 };
 
-exports.serveAssets = function(res, asset, callback) {
-  var path = asset;
-  console.log("path: "+path);
-  if (path === '/') {
-    path = archive.paths.siteAssets+ '/index.html';
-    exports.read(res, path, callback);
-  } else if (archive.isUrlInList(path)) {
-    path = archive.paths.archivedSites + '/' + path;
-    exports.read(res, path, callback);
-  } else {
-    callback(res, null, 404);
-  }
+exports.send404 = function(response){
+  exports.sendResponse(response, '404: Page not found', 404);
 };
-
-

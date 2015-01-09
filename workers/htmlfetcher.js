@@ -1,3 +1,3 @@
 var archive = require('../helpers/archive-helpers');
 
-archive.downloadUrls();
+archive.readListOfUrls(archive.downloadUrls);
